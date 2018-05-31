@@ -2,9 +2,16 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>글쓰기</title>
 </head>
 <body>
-
+<form action="write.jsp" method="post">
+<p><h3>글쓰기</h3></p>
+<br />제목 : <input type="text" name="title" /><br />
+<br />날짜 : <input type="date" name="date" /><br />
+<p>내용 </p>
+<textarea name="contents" rows="10" cols="50"></textarea><br />
+<br /><input type="submit" value="확인" /><br />
+</form>
 </body>
 </html>
