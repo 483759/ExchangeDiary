@@ -1,0 +1,113 @@
+﻿
+	<style>
+		input{
+			margin:5px;
+		}
+
+		#nav{
+			float:left;
+			width:23%;
+			color:gray;
+			height:500px;
+			border:1px solid gray;
+			margin-left:3%;
+			margin-bottom:3%;
+			text-align:center;
+		}
+
+
+		.maincontentTop{
+			float:top;
+			border:solid 1px black;
+
+			width:100%;
+		}
+		.maincontentLeft{
+			position: absolute;
+    	left: 38%;
+    	margin-top: 20px;
+		}
+		.maincontentRight{
+			width:48%;
+			float:right;
+			height:400px;
+			margin:7px;
+			margin-left:0px;
+			color:black;
+			border:solid 1px black;
+			background-color:#F6F6F6;
+		}
+		.needRead{
+			float:top;
+			width:100%;
+			height:50px;
+			text-align:left;
+			line-height:50px;
+			color:#F6F6F6;
+			font-size:30px;
+			font-family:"배달의민족 도현";
+			background-color:gray;
+		}
+
+		#content{
+			float: left;
+			max-width: 100%;
+			height: 400px;
+			text-align: center;
+		}
+
+		#footer{
+			clear:both;
+			/* height:150px; */
+			margin:20px;
+			/* margin-top:100%; */
+			text-align:center;
+			font-family:"배달의민족 도현";
+		}
+		#footer a{
+			color:gray;
+			text-decoration:none;
+		}
+		#footer a:hover{
+			color:#74b7a6;
+		}
+
+		.copyright{
+			display:inline;
+			padding:0 30px;
+		}
+		th{
+			padding-bottom:10px;
+		}
+		tr{
+			border:1px solid black;
+		}
+		td{
+			padding-bottom:10px;
+		}
+
+		body{
+			height: 100%;
+			font-family:"배달의민족 한나는 열한살";
+			color : gray;
+			width : 400px;
+		}
+		table{
+			width: 65%;
+			margin: auto;
+			text-align: center;
+		}
+
+		label {
+				display: inline-block;
+				width: 120px;
+		}
+		input {
+				display: inline-block;
+				width: 100px;
+		}
+		form{
+			margin: auto;
+			text-align: center;
+		}
+</style>
