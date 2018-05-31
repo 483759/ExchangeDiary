@@ -4,7 +4,7 @@
 <html>
 
 <head>
-	<title>Exchange_Diary</title>
+	<title>Exchange_Diary_</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
     <style>
