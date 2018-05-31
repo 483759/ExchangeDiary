@@ -1,17 +1,23 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 <meta charset="EUC-KR">
 <title>글쓰기</title>
 </head>
 <body>
 <form action="write.jsp" method="post">
 <p><h3>글쓰기</h3></p>
+<div class="input-group">
+  <span class="input-group-addon" id="sizing-addon2">제목&nbsp;&nbsp;</span>
+  <input type="text" class="form-control" placeholder="Title" aria-describedby="basic-addon1" name="title" cols="30">
+</div>
 <br />제목 : <input type="text" name="title" /><br />
 <br />날짜 : <input type="date" name="date" /><br />
 <p>내용 </p>
 <textarea name="contents" rows="10" cols="50"></textarea><br />
-<br /><input type="submit" value="확인" /><br />
+<br /><input type="submit" class="btn btn-info" value="확인"><br />
 </form>
 </body>
 </html>
