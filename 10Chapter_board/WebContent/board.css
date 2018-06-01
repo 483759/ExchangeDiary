@@ -1,0 +1,37 @@
+/*@charset "UTP-8";*/
+
+body{
+	font-family:Sandoll ¹Ì»ý;
+	color:gray;
+	background-color:#FFFDFF;
+	text-align: center;
+}
+
+
+table{
+   width: auto;
+   border-collapse: collapts;   
+   text-align: center;
+}
+
+td,th{
+   font-size: 10pt;
+   border: 1px solid #FFC4EB;
+   height: 30px;
+   padding: 5px;
+   color:gray;
+   text-align: center;
+}
+
+th{
+   background-color: #FFC4EB;
+   color: gray;
+}
+tr td{
+   height:30px;
+   width: 200px;
+}
+input[type="submit"],[type="reset"],[type=:button] {
+   height: 25px;
+   width: 80px;
+}
