@@ -1,2 +1,4 @@
 /com/
-/table.sql
+/dao.class
+/dto.class
+/conn/

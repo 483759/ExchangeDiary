@@ -1,6 +1,6 @@
 package com.dao;
 
-import java.sql.Connection;
+import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,512 +16,500 @@ import com.entity.PageTO;
 
 public class BoardDAO {
 
-	 DataSource dataFactory;
-		public BoardDAO(){
-			//DataSource æÚ±‚
-			try{
-				 Context ctx = new InitialContext();
-				dataFactory = (DataSource)ctx.lookup("java:comp/env/jdbc/Oracle11g");
+   String jdbc_driver = "com.mysql.jdbc.Driver";
+   String jdbc_url = "jdbc:mysql://localhost/jspdb"; 
 
-			}catch(Exception e){ e.printStackTrace();}
-		}//end ª˝º∫¿⁄
-		
-		//∏Ò∑œ∫∏±‚
-		public ArrayList<BoardDTO> list(){
-			
-			ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-				try{
-				 con = dataFactory.getConnection();
-				 String query = "SELECT  num , author, title,  content ,  to_char( writeday , 'YYYY/MM/DD') writeday ,  readcnt , repRoot, repStep, repIndent FROM board order by repRoot desc , repStep asc";
-				 pstmt = con.prepareStatement(query);
-				 rs = pstmt.executeQuery();
+   public BoardDAO(){
+      //DataSource ÏñªÍ∏∞
+      try{
+         Class.forName(jdbc_driver);
+      }catch(Exception e){ e.printStackTrace();}
+   }//end ÏÉùÏÑ±Ïûê
 
-				 while( rs.next()){
-					int num = rs.getInt( "num" );
-					String author = rs.getString( "author" );
-					String title = rs.getString( "title" );
-					String content = rs.getString( "content" );
-					String writeday = rs.getString( "writeday" );
-					int readcnt = rs.getInt( "readcnt" );
-					int repRoot = rs.getInt( "repRoot");
-					int repStep = rs.getInt( "repStep" );
-					int repIndent = rs.getInt( "repIndent" );
-					BoardDTO data = new BoardDTO();
-					data.setNum( num );
-					data.setAuthor( author );
-					data.setTitle( title );
-					data.setContent( content );
-					data.setWriteday( writeday );
-					data.setReadcnt( readcnt );
-					data.setRepRoot( repRoot);
-					data.setRepStep( repStep );
-					data.setRepIndent( repIndent );
-					list.add( data );
-				 }//end while
-				
-				}catch(Exception e){ 
-					e.printStackTrace();
-				}finally{
-					try {
-						if( rs!= null) rs.close();
-						if( pstmt!= null) pstmt.close();
-						if( con!= null) con.close();
-						
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				 return list;
-			}//end select
-		
-		//±€æ≤±‚ 
-		public void write( String _title, String _author, String _content){
+   //Î™©Î°ùÎ≥¥Í∏∞
+   public ArrayList<BoardDTO> list(){
 
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			
-			try{
-			  con = dataFactory.getConnection();
-			  String query =" INSERT INTO board ( num , title, author , content,  repRoot , repStep , repIndent ) values ( board_seq.nextval , ? , ? , ? , board_seq.currval , 0 , 0 )";
-			  pstmt = con.prepareStatement( query );
+      ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "SELECT  num , author, title,  content ,  substr( writeday , 1, 10) writeday ,  readcnt , repRoot, repStep, repIndent FROM board order by repRoot desc , repStep asc";
+         pstmt = con.prepareStatement(query);
+         rs = pstmt.executeQuery();
 
-			  pstmt.setString( 1, _title );
-			  pstmt.setString( 2, _author );
-			  pstmt.setString( 3, _content );
+         while( rs.next()){
+            int num = rs.getInt( "num" );
+            String author = rs.getString( "author" );
+            String title = rs.getString( "title" );
+            String content = rs.getString( "content" );
+            String writeday = rs.getString( "writeday" );
+            int readcnt = rs.getInt( "readcnt" );
+            int repRoot = rs.getInt( "repRoot");
+            int repStep = rs.getInt( "repStep" );
+            int repIndent = rs.getInt( "repIndent" );
+            BoardDTO data = new BoardDTO();
+            data.setNum( num );
+            data.setAuthor( author );
+            data.setTitle( title );
+            data.setContent( content );
+            data.setWriteday( writeday );
+            data.setReadcnt( readcnt );
+            data.setRepRoot( repRoot);
+            data.setRepStep( repStep );
+            data.setRepIndent( repIndent );
+            list.add( data );
+         }//end while
 
-			  int n = pstmt.executeUpdate();
+      }catch(Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( rs!= null) rs.close();
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
 
-			}catch(Exception e){ 
-				e.printStackTrace();
-			}finally{
-				try {
-					if( pstmt!= null) pstmt.close();
-					if( con!= null) con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}//end finally
-		 }//end insert
-		
-		
-		//¡∂»∏ºˆ 1 ¡ı∞°
-		  public  void readCount( String  _num ){
-				
-			  Connection con = null;
-			  PreparedStatement pstmt = null;
-				try{
-					  con = dataFactory.getConnection();
-					  String query = "UPDATE board SET readcnt = readcnt + 1 WHERE num="+ _num;
-					  pstmt = con.prepareStatement( query );
-					  int n = pstmt.executeUpdate( );
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      return list;
+   }//end select
 
-				}catch( Exception e){ 
-					e.printStackTrace();
-				}finally{
-					try {
-						if( pstmt!= null) pstmt.close();
-						if( con!= null) con.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}//end finally
-		  }//end readCount
-		  
-		//±€ ¿⁄ºº»˜ ∫∏±‚
-		public BoardDTO retrieve( String  _num ){
+   //Í∏ÄÏì∞Í∏∞ 
+   public void write( String _title, String _author, String _content){
 
-			// ¡∂»∏ºˆ ¡ı∞°
-			readCount(  _num );
-			 Connection con = null;
-			 PreparedStatement pstmt = null;
-			 ResultSet rs = null;
-			 BoardDTO data = new BoardDTO();
-			 try{
-					con = dataFactory.getConnection();
-					
-					String query = "SELECT * FROM board WHERE num = ?";
-					pstmt = con.prepareStatement( query );
-					pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
-					rs= pstmt.executeQuery();
+      Connection con = null;
+      PreparedStatement pstmt = null;
 
-					if( rs.next()){
-						int num = rs.getInt( "num" );
-						String title = rs.getString( "title" );
-						String author = rs.getString( "author" );
-						String content = rs.getString( "content" );
-						String writeday = rs.getString( "writeday" );
-						int readcnt = rs.getInt( "readcnt" );
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query =" INSERT INTO board (title, author , content,  repRoot , repStep , repIndent ) values (? , ? , ? , 0 , 0 , 0 )";
+         pstmt = con.prepareStatement( query );
 
-						data.setNum( num );
-						data.setTitle( title );
-						data.setAuthor( author );
-						data.setContent( content );
-						data.setWriteday( writeday );
-						data.setReadcnt( readcnt );
-					}//end if
-						
-			 }catch( Exception e){ 
-				 e.printStackTrace();
-			 }finally{
-					try {
-						if( rs!= null) rs.close();
-						if( pstmt!= null) pstmt.close();
-						if( con!= null) con.close();
-						
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-					 return data; 
-			
-		}//end retrieve
-		
-		//±€ ºˆ¡§«œ±‚
-		public void update( String  _num , String  _title , String  _author , String  _content ){
-				
-			 Connection con = null;
-			 PreparedStatement pstmt = null;
-			
-			 
-			try{
-					    con = dataFactory.getConnection();
-						String query = "UPDATE board SET  title = ?  ,  author = ? , content = ?  WHERE num = ?";
+         pstmt.setString( 1, _title );
+         pstmt.setString( 2, _author );
+         pstmt.setString( 3, _content );
 
-						pstmt = con.prepareStatement( query );
+         int n = pstmt.executeUpdate();
 
-						pstmt.setString ( 1 , _title );
-						pstmt.setString( 2,  _author );
-						pstmt.setString( 3 ,  _content );
-						pstmt.setInt(  4 ,   Integer.parseInt( _num ) );
+      }catch(Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }//end finally
+   }//end insert
 
-					 int n = pstmt.executeUpdate();
 
-				}catch( Exception e){ 
-					e.printStackTrace(); 
-				}finally{
-					try {
-						if( pstmt!= null) pstmt.close();
-						if( con!= null) con.close();
-						
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+   //Ï°∞ÌöåÏàò 1 Ï¶ùÍ∞Ä
+   public  void readCount( String  _num ){
 
-		 }//end update
-		
-		//±€ ªË¡¶«œ±‚
-		public void delete( String   _num ){
-			
-			 Connection con = null;
-			 PreparedStatement pstmt = null;
-			 
-			try{
-					con = dataFactory.getConnection();
-					
-					String query = "DELETE FROM board WHERE num = ?";
-					pstmt = con.prepareStatement( query );
-					pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
-					
-				  int n =	pstmt.executeUpdate( );
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "UPDATE board SET readcnt = readcnt + 1 WHERE num="+ _num;
+         pstmt = con.prepareStatement( query );
+         int n = pstmt.executeUpdate( );
 
-					
-			
-			}catch( Exception e) { 
-				e.printStackTrace();
-			}finally{
-				try {
-					if( pstmt!= null) pstmt.close();
-					if( con!= null) con.close();
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }//end finally
+   }//end readCount
 
-		}//end delete
-		
-		// ∞Àªˆ «œ±‚
-		public ArrayList<BoardDTO>  search( String  _searchName,  String  _searchValue )	{
-			ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-				try{
-				 con = dataFactory.getConnection();
-				 String query = "SELECT  num , author, title,  content ,  to_char( writeday , 'YYYY/MM/DD') writeday ,  readcnt FROM board";
+   //Í∏Ä ÏûêÏÑ∏Ìûà Î≥¥Í∏∞
+   public BoardDTO retrieve( String  _num ){
 
-		       if(  _searchName.equals( "title" )){
+      // Ï°∞ÌöåÏàò Ï¶ùÍ∞Ä
+      readCount(  _num );
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      BoardDTO data = new BoardDTO();
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "SELECT * FROM board WHERE num = ?";
+         pstmt = con.prepareStatement( query );
+         pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
+         rs= pstmt.executeQuery();
 
-						query += "     WHERE  title  LIKE  ?";
+         if( rs.next()){
+            int num = rs.getInt( "num" );
+            String title = rs.getString( "title" );
+            String author = rs.getString( "author" );
+            String content = rs.getString( "content" );
+            String writeday = rs.getString( "writeday" );
+            int readcnt = rs.getInt( "readcnt" );
 
-			   }else{
-						query += "    WHERE  author LIKE ?";
-			   }//
+            data.setNum( num );
+            data.setTitle( title );
+            data.setAuthor( author );
+            data.setContent( content );
+            data.setWriteday( writeday );
+            data.setReadcnt( readcnt );
+         }//end if
 
-		         pstmt = con.prepareStatement( query );
-				 pstmt.setString(  1 ,   "%"+_searchValue+"%" );
-		        
-				 rs = pstmt.executeQuery( );
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( rs!= null) rs.close();
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
 
-				 while( rs.next()){
-					int num = rs.getInt( "num" );
-					String author = rs.getString( "author" );
-					String title = rs.getString( "title" );
-					String content = rs.getString( "content" );
-					String writeday = rs.getString( "writeday" );
-					int readcnt = rs.getInt( "readcnt" );
-					
-					BoardDTO data = new BoardDTO();
-					data.setNum( num );
-					data.setAuthor( author );
-					data.setTitle( title );
-					data.setContent( content );
-					data.setWriteday( writeday );
-					data.setReadcnt( readcnt );
-					list.add( data );
-				 }//end while
-					
-				}catch(Exception e){ 
-					e.printStackTrace();
-				}finally{
-					try {
-						if( rs!= null) rs.close();
-						if( pstmt!= null) pstmt.close();
-						if( con!= null) con.close();
-						
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				 return list;
-			}//end search
-		
-		// ¥‰∫Ø±€ ¿‘∑¬ ∆˚ ∫∏±‚
-		public  BoardDTO  replyui( String  _num ){
-			
-			BoardDTO data = new BoardDTO();
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			 try{
-					con = dataFactory.getConnection();
-					
-					 String query = "SELECT * FROM board WHERE  num = ?";
-					 pstmt = con.prepareStatement( query );
-					 pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
-			         
-					 rs  =  pstmt.executeQuery();
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      return data; 
 
-				if( rs.next()){
-					data.setNum(  rs.getInt( "num" ));
-					data.setTitle( rs.getString( "title" ));
-					data.setAuthor( rs.getString( "author" ));
-					data.setContent( rs.getString( "content" ));
-					data.setWriteday( rs.getString( "writeday" ));
-					data.setReadcnt( rs.getInt( "readcnt" ));
-					data.setRepRoot( rs.getInt( "repRoot" ));
-					data.setRepStep( rs.getInt( "repStep" ));
-					data.setRepIndent( rs.getInt( "repIndent" ));
-				}//end if
-					
-			 	 }catch( Exception e){ 
-			 		 e.printStackTrace();
-			 	 }finally{
-						try {
-							if( rs!= null) rs.close();
-							if( pstmt!= null) pstmt.close();
-							if( con!= null) con.close();
-							
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					return data;
-		}//end replyui
+   }//end retrieve
 
-		//¥‰∫Ø±€¿« ±‚¡∏ repStep 1 ¡ı∞°
-		public void makeReply( String _root , String _step ){
-			
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			
-			try{
-					con = dataFactory.getConnection();
-					
-	String query = "UPDATE board SET repStep = repStep + 1 WHERE  repRoot = ? AND  repStep > ? ";
-	             pstmt = con.prepareStatement( query );
-	             pstmt.setInt(  1 ,   Integer.parseInt( _root ) );
-	             pstmt.setInt(  2 ,   Integer.parseInt( _step ) );
-				 int n= pstmt.executeUpdate( );
-					 
-					
-			}catch( Exception e){ 
-				e.printStackTrace();
-			}finally{
-				try {
-					if( pstmt!= null) pstmt.close();
-					if( con!= null) con.close();		
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+   //Í∏Ä ÏàòÏ†ïÌïòÍ∏∞
+   public void update( String  _num , String  _title , String  _author , String  _content ){
 
-	}//
-		
-		//¥‰∫Ø ¥ﬁ±‚
-		public void reply( String _num, String _title , String  _author, String _content , String _repRoot,  String _repStep , String _repIndent ){
-			
-			makeReply( _repRoot,  _repStep );
-			
-			Connection con = null;
-			PreparedStatement pstmt = null;
-	try{
-			con = dataFactory.getConnection();
-String query = "INSERT INTO board ( num , title, author, content, repRoot, repStep, repIndent ) values ( board_seq.nextVal , ? , ? , ? , ?, ?, ?) ";
-             pstmt = con.prepareStatement( query );
+      Connection con = null;
+      PreparedStatement pstmt = null;
 
-             pstmt.setString ( 1,  _title );
-             pstmt.setString ( 2, _author );
-             pstmt.setString ( 3, _content );
-             pstmt.setInt ( 4, Integer.parseInt( _repRoot) );
-             pstmt.setInt ( 5,  Integer.parseInt( _repStep) + 1 );
-             pstmt.setInt ( 6,  Integer.parseInt( _repIndent) + 1 );
 
-             int n = pstmt.executeUpdate();
-		
-	}catch( Exception e){ 
-		e.printStackTrace();
-	}finally{
-		try {
-			if( pstmt!= null) pstmt.close();
-			if( con!= null) con.close();		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-}//end reply
-	
-		// ∆‰¿Ã¬° √≥∏Æ: ¿¸√º ∑πƒ⁄µÂ ∞πºˆ ±∏«œ±‚
-		public int totalCount(){
-			
-			    int count = 0;
-			    Connection con = null;
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-					try{
-					   con = dataFactory.getConnection();
-					  
-					  String query = "SELECT  count(*) FROM board";
-					  pstmt = con.prepareStatement( query );
-					  rs =	pstmt.executeQuery( );
-					
-					 if( rs.next()){
-						count = rs.getInt( 1 );
-					 }
-					
-					 }catch( Exception e){ 
-				 		 e.printStackTrace();
-				 	 }finally{
-							try {
-								if( rs!= null) rs.close();
-								if( pstmt!= null) pstmt.close();
-								if( con!= null) con.close();
-								
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					return count;
-		}//end totalCount
-		
-		// ∆‰¿Ã¡ˆ ±∏«ˆ
-		public PageTO  page( int curPage ){
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "UPDATE board SET  title = ?  ,  author = ? , content = ?  WHERE num = ?";
 
-			  PageTO   to = new PageTO();
-			  int totalCount = totalCount();
+         pstmt = con.prepareStatement( query );
 
-			  ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
-			  Connection con = null;
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				
-			     try{
-				 con = dataFactory.getConnection();
-			 String query = "SELECT  num , author, title,  content ,  to_char( writeday , 'YYYY/MM/DD') writeday ,  readcnt , repRoot, repStep, repIndent FROM board order by repRoot desc , repStep asc";
-			    
-			 pstmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
-			 rs = pstmt.executeQuery(  );
-				
-				  int perPage = to.getPerPage(); //5
-				  int skip = ( curPage - 1 ) * perPage;
-						if( skip > 0 ){
-							rs.absolute( skip );
-						}
-						for( int i = 0 ; i < perPage &&  rs.next() ; i++){
-						int num = rs.getInt( "num" );
-						String author = rs.getString( "author" );
-						String title = rs.getString( "title" );
-						String content = rs.getString( "content" );
-						String writeday = rs.getString( "writeday" );
-						int readcnt = rs.getInt( "readcnt" );
-						int repRoot = rs.getInt( "repRoot");
-						int repStep = rs.getInt( "repStep" );
-						int repIndent = rs.getInt( "repIndent" );
-						BoardDTO data = new BoardDTO();
-						data.setNum( num );
-						data.setAuthor( author );
-						data.setTitle( title );
-						data.setContent( content );
-						data.setWriteday( writeday );
-						data.setReadcnt( readcnt );
-						data.setRepRoot( repRoot);
-						data.setRepStep( repStep );
-						data.setRepIndent( repIndent );
-						list.add( data );
-					}//end for
-						
-						to.setList( list ); // ArrayList ¿˙¿Â
-						to.setTotalCount( totalCount ); // ¿¸√º ∑πƒ⁄µÂ ∞πºˆ
-						to.setCurPage( curPage ); // «ˆ¿Á ∆‰¿Ã¡ˆ
+         pstmt.setString ( 1 , _title );
+         pstmt.setString( 2,  _author );
+         pstmt.setString( 3 ,  _content );
+         pstmt.setInt(  4 ,   Integer.parseInt( _num ) );
 
-			     }catch( Exception e){ 
-			 		 e.printStackTrace();
-			 	 }finally{
-						try {
-							if( rs!= null) rs.close();
-							if( pstmt!= null) pstmt.close();
-							if( con!= null) con.close();
-							
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					return to;
-			}//end page
-		
-		
-		
-		
-		
-		
-		
+         int n = pstmt.executeUpdate();
+
+      }catch( Exception e){ 
+         e.printStackTrace(); 
+      }finally{
+         try {
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+
+   }//end update
+
+   //Í∏Ä ÏÇ≠Ï†úÌïòÍ∏∞
+   public void delete( String   _num ){
+
+      Connection con = null;
+      PreparedStatement pstmt = null;
+
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "DELETE FROM board WHERE num = ?";
+         pstmt = con.prepareStatement( query );
+         pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
+
+         int n =   pstmt.executeUpdate( );
+
+
+
+      }catch( Exception e) { 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+
+   }//end delete
+
+   // Í≤ÄÏÉâ ÌïòÍ∏∞
+   public ArrayList<BoardDTO>  search( String  _searchName,  String  _searchValue )   {
+      ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "SELECT  num , author, title,  content ,  substr( writeday , 1, 10) writeday ,  readcnt FROM board";
+
+         if(  _searchName.equals( "title" )){
+
+            query += "     WHERE  title  LIKE  ?";
+
+         }else{
+            query += "    WHERE  author LIKE ?";
+         }//
+
+         pstmt = con.prepareStatement( query );
+         pstmt.setString(  1 ,   "%"+_searchValue+"%" );
+
+         rs = pstmt.executeQuery( );
+
+         while( rs.next()){
+            int num = rs.getInt( "num" );
+            String author = rs.getString( "author" );
+            String title = rs.getString( "title" );
+            String content = rs.getString( "content" );
+            String writeday = rs.getString( "writeday" );
+            int readcnt = rs.getInt( "readcnt" );
+
+            BoardDTO data = new BoardDTO();
+            data.setNum( num );
+            data.setAuthor( author );
+            data.setTitle( title );
+            data.setContent( content );
+            data.setWriteday( writeday );
+            data.setReadcnt( readcnt );
+            list.add( data );
+         }//end while
+
+      }catch(Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( rs!= null) rs.close();
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      return list;
+   }//end search
+
+   // ÎãµÎ≥ÄÍ∏Ä ÏûÖÎ†• Ìèº Î≥¥Í∏∞
+   public  BoardDTO  replyui( String  _num ){
+
+      BoardDTO data = new BoardDTO();
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "SELECT * FROM board WHERE  num = ?";
+         pstmt = con.prepareStatement( query );
+         pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
+
+         rs  =  pstmt.executeQuery();
+
+         if( rs.next()){
+            data.setNum(  rs.getInt( "num" ));
+            data.setTitle( rs.getString( "title" ));
+            data.setAuthor( rs.getString( "author" ));
+            data.setContent( rs.getString( "content" ));
+            data.setWriteday( rs.getString( "writeday" ));
+            data.setReadcnt( rs.getInt( "readcnt" ));
+            data.setRepRoot( rs.getInt( "repRoot" ));
+            data.setRepStep( rs.getInt( "repStep" ));
+            data.setRepIndent( rs.getInt( "repIndent" ));
+         }//end if
+
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( rs!= null) rs.close();
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      return data;
+   }//end replyui
+
+   //ÎãµÎ≥ÄÍ∏ÄÏùò Í∏∞Ï°¥ repStep 1 Ï¶ùÍ∞Ä
+   public void makeReply( String _root , String _step ){
+
+      Connection con = null;
+      PreparedStatement pstmt = null;
+
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "UPDATE board SET repStep = repStep + 1 WHERE  repRoot = ? AND  repStep > ? ";
+         pstmt = con.prepareStatement( query );
+         pstmt.setInt(  1 ,   Integer.parseInt( _root ) );
+         pstmt.setInt(  2 ,   Integer.parseInt( _step ) );
+         int n= pstmt.executeUpdate( );
+
+
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();      
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+
+   }//
+
+   //ÎãµÎ≥Ä Îã¨Í∏∞
+   public void reply( String _num, String _title , String  _author, String _content , String _repRoot,  String _repStep , String _repIndent ){
+
+      makeReply( _repRoot,  _repStep );
+
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "INSERT INTO board (title, author, content, repRoot, repStep, repIndent ) values (? , ? , ? , ?, ?, ?) ";
+         pstmt = con.prepareStatement( query );
+
+         pstmt.setString ( 1,  _title );
+         pstmt.setString ( 2, _author );
+         pstmt.setString ( 3, _content );
+         pstmt.setInt ( 4, Integer.parseInt( _repRoot) );
+         pstmt.setInt ( 5,  Integer.parseInt( _repStep) + 1 );
+         pstmt.setInt ( 6,  Integer.parseInt( _repIndent) + 1 );
+
+         int n = pstmt.executeUpdate();
+
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();      
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+   }//end reply
+
+   // ÌéòÏù¥Ïßï Ï≤òÎ¶¨: Ï†ÑÏ≤¥ Î†àÏΩîÎìú Í∞ØÏàò Íµ¨ÌïòÍ∏∞
+   public int totalCount(){
+
+      int count = 0;
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "SELECT  count(*) FROM board";
+         pstmt = con.prepareStatement( query );
+         rs =   pstmt.executeQuery( );
+
+         if( rs.next()){
+            count = rs.getInt( 1 );
+         }
+
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( rs!= null) rs.close();
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      return count;
+   }//end totalCount
+
+   // ÌéòÏù¥ÏßÄ Íµ¨ÌòÑ
+   public PageTO  page( int curPage ){
+
+      PageTO   to = new PageTO();
+      int totalCount = totalCount();
+
+      ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
+      Connection con = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+
+      try{
+         con = DriverManager.getConnection(jdbc_url, "root", "gksquf2wld!");
+         String query = "SELECT  num , author, title,  content ,  substr( writeday , 1, 10) writeday ,  readcnt , repRoot, repStep, repIndent FROM board order by repRoot desc , repStep asc";
+
+         pstmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+         rs = pstmt.executeQuery(  );
+
+         int perPage = to.getPerPage(); //5
+         int skip = ( curPage - 1 ) * perPage;
+         if( skip > 0 ){
+            rs.absolute( skip );
+         }
+         for( int i = 0 ; i < perPage &&  rs.next() ; i++){
+            int num = rs.getInt( "num" );
+            String author = rs.getString( "author" );
+            String title = rs.getString( "title" );
+            String content = rs.getString( "content" );
+            String writeday = rs.getString( "writeday" );
+            int readcnt = rs.getInt( "readcnt" );
+            int repRoot = rs.getInt( "repRoot");
+            int repStep = rs.getInt( "repStep" );
+            int repIndent = rs.getInt( "repIndent" );
+            BoardDTO data = new BoardDTO();
+            data.setNum( num );
+            data.setAuthor( author );
+            data.setTitle( title );
+            data.setContent( content );
+            data.setWriteday( writeday );
+            data.setReadcnt( readcnt );
+            data.setRepRoot( repRoot);
+            data.setRepStep( repStep );
+            data.setRepIndent( repIndent );
+            list.add( data );
+         }//end for
+
+         to.setList( list ); // ArrayList Ï†ÄÏû•
+         to.setTotalCount( totalCount ); // Ï†ÑÏ≤¥ Î†àÏΩîÎìú Í∞ØÏàò
+         to.setCurPage( curPage ); // ÌòÑÏû¨ ÌéòÏù¥ÏßÄ
+
+      }catch( Exception e){ 
+         e.printStackTrace();
+      }finally{
+         try {
+            if( rs!= null) rs.close();
+            if( pstmt!= null) pstmt.close();
+            if( con!= null) con.close();
+
+         } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      return to;
+   }//end page
 
 }//end class
