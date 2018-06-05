@@ -63,14 +63,22 @@ margin-right : 2px;
 	   		</tr>
 	   		</thead>
 	   		<tbody>
+	   	<c:forEach items="${list}" var="dto">
 	   		<tr>
-	   			<td>1</td>
-	   			<td>ªÛ∑œ¿Ã æ»≥Á ¿Ã¡¯¿Ã æ»≥Á~~ ~~ ~!~!~</td>
-	   			<td>±Ë«—∫∞</td>
-	   			<td>2018.06.01</td>
-	   			<td>3</td>
-	   		</tr>
-	   		</tbody>
+	  		<td>${dto.num}</td>
+	   		<td>
+	   		<c:forEach begin="1" end="${dto.repIndent }">
+	    	<%= "&nbsp;&nbsp;" %>
+	   		</c:forEach>  
+	   		
+	   		<a href="retrieve.do?num=${dto.num}">${dto.title}</a>
+	   		</td>
+	  		 <td>${dto.author}</td>
+	  		 <td>${dto.writeday}</td>
+	   		<td>${dto.readcnt}</td>
+			</tr>
+		</c:forEach>
+	   	</tbody>
 	   </table>
 	   	   </div>
 	  <div class="text-center">
@@ -81,21 +89,7 @@ margin-right : 2px;
 </div>
 	</div>
 	
-<c:forEach items="${list}" var="dto">
-   	<tr>
-	   <td>${dto.num}</td>
-	   <td>
-	   <c:forEach begin="1" end="${dto.repIndent }">
-	    <%= "&nbsp;&nbsp;" %>
-	   </c:forEach>   
-	   <a href="retrieve.do?num=${dto.num}">${dto.title}</a>
-	   </td>
-	   <td>${dto.author}</td>
-	   <td>${dto.writeday}</td>
-	   <td>${dto.readcnt}</td>
-	</tr>
-
-</c:forEach>	
+	
 
 	</table>
 	</div>

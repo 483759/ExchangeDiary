@@ -36,7 +36,7 @@
     </div>
     
 	<center>
-	<button class="btn btn-light" id="insert" onclick="location.href='list.do'">목록보기</button>	
+	<button type="button" class="btn btn-light" id="list" onclick="location.href='list.do'">목록보기</button>	
     <button type="submit" class="btn btn-info" >확인</button>
   	</center>
   	
