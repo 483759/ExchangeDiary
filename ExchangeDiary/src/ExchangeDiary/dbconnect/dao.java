@@ -51,9 +51,7 @@ public class dao {
 			pstmt.setString(2,dto.getId());
 			pstmt.setString(3,dto.getBirth());
 			pstmt.setString(4,dto.getTel());
-			pstmt.setString(5,dto.getPassword());
-
-			System.out.println("Hi");
+			pstmt.setString(5,dto.getPwd());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

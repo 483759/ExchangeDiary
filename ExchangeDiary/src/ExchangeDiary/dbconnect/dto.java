@@ -22,10 +22,10 @@ public class dto {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getPassword() {
+	public String getPwd() {
 		return pwd;
 	}
-	public void setPassword(String pwd) {
+	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
 	public String getName() {
