@@ -13,9 +13,10 @@ public class BoardUpdateCommand implements BoardCommand {
 		String title = request.getParameter( "title" );
 		String author = request.getParameter( "author" );
 		String content = request.getParameter( "content" );
+		String writeday = request.getParameter("writeday");
 
 		BoardDAO  dao = new BoardDAO();
-		dao.update( num , title, author, content );
+		dao.update( num , title, author, content, writeday);
 
 	}
 

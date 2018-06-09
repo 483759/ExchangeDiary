@@ -19,16 +19,32 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 </head>
 <body>
+<br>
+<br>
  <nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 		<li class="page-item disabled">
-		<a class="page-link" href="#" tabindex="-1">Previous</a>
+		
 		</li>
-		<li class="page-item">
+		
 		<%
-				
+		 
+		if (curPage==1){
+				out.print("<a class='page-link' href='' tabindex='-1'>Previous</a>");
+			}
+		for(int i=2; i<=totalPage;i++){
+			if(curPage==i){
+				out.print("<a class='page-link' href='list.do?curPage="+(i-1)+"'>Previous</a>");
+			}
+		}
+		
+			
+		%>
+		<li class="page-item">
+		<%	
 		
 				 for (int i=1; i<=totalPage; i++){
+				
 			 if( curPage ==i){
 				 out.print("<a class='page-link' href='list.do?curPage="+i+"'>"+i+"</a></li>");
 			 }
@@ -36,12 +52,20 @@
 				 out.print("<a class='page-link' href='list.do?curPage="+i+"'>"+i+"</a></li>");
 			 }
 		 }
+		 
+		if (curPage==totalPage){
+				out.print("<a class='page-link' href='' tabindex='-1'>Next</a>");
+			}
+		for(int i=1; i<totalPage;i++){
+			if(curPage==i){
+				out.print("<a class='page-link' href='list.do?curPage="+(i+1)+"'>Next</a>");
+			}
+		}
+			
 		%>
 		</li>
+		
 	
-		<li class="page-item">
-		<a class="page-link" href="#">Next</a>
-		</li>
 		</ul>
 		</nav>
 		

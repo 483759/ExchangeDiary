@@ -11,7 +11,7 @@
 <title>목록보기</title>
 
 <style>
-#searchbar {
+#namebar {
 display : inline-block;
 float : right;
 margin-bottom : 10px;
@@ -22,33 +22,29 @@ margin-right : 2px;
 
 
 <body>
-<br>
-<br>
-<h1 class="text-center">게시판 목록 보기</h1>
-<br>
-<br>
+<%
+		String id = (String) session.getAttribute("id");
+		String name = (String) session.getAttribute("name");
+		String logout = request.getParameter("logout");
 
+		if (logout != null && logout.equals("yes")) {
+			session.removeAttribute("id");
+			session.removeAttribute("login");
+		}
+	%>
+	<br>
+	<br>
+<h1 class="text-center">게시판 목록 보기</h1>
 <div class="container" >
-<div class="row" id="searchbar">
-<form class="form-inline" action="search.do">
-<div class="dropdown">
-<button class="btn btn-light dropdown-toggle" type="button" id="Search" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-작성자
-</button>
-	<div class="dropdown-menu" aria-labelledby="Search">
-		<a class="dropdown-item" href="#">작성자</a>
-		<a class="dropdown-item" href="#">제목</a>
-	</div>
-	</div>
-      <input type="text" class="form-control" id="Searchbar" placeholder="Enter" name="Serachbar" width="50%">
-    <button class="btn btn-light " id="search" onclick="">검색</button>
+<div class="row" id="namebar">
+<form class="form-inline">
+	<p> 안녕하세요! <%=name%> 님! </p>
 
 </form>
 </div>
 </div>
-
-
-
+	<br>
+	<br>
 
 <div class="container">	
 	   <div>
@@ -90,9 +86,6 @@ margin-right : 2px;
 	</div>
 	
 	
-
-	</table>
-	</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

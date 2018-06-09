@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class PageTO {
     ArrayList<BoardDTO> list ;
 	int curPage ;
-	int perPage = 5;
+	int perPage = 10;
 	int totalCount;
 
 	public ArrayList<BoardDTO> getList() {

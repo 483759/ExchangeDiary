@@ -26,7 +26,7 @@
     </div>
     <div class="form-group">
     <label for="date">³¯Â¥:</label>
-    <input type="Date" class="form-control" id="date" name="date">
+    <input type="date" class="form-control" id="writeday" name="writeday">
     </div>
     
     <br>
