@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.util.Calendar"%>
+	pageEncoding="UTF-8" import="java.sql.*, java.util.Calendar, com.DiaryDB"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
@@ -22,6 +23,10 @@
 		month = Integer.parseInt(m);
 	if (d != null)
 		date = Integer.parseInt(d);
+	if (month / 10 == 0)
+		m = "0" + m;
+	if (date / 10 == 0)
+		d = "0" + d;
 
 	cal.set(year, month - 1, 1);
 	year = cal.get(Calendar.YEAR);
@@ -32,10 +37,17 @@
 
 	// 달의 마지막 날짜는?
 	int endDays = cal.getActualMaximum(Calendar.DATE);
+	String days = year + "-" + month + "-" + date;
 %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 
 <head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	crossorigin="anonymous">
 <title>달력</title>
 <style type="text/css">
 td {
@@ -49,12 +61,19 @@ td {
 	/*모서리 둥글게*/
 }
 
-#calender {
+#calendar {
 	float: left;
+	position: absolute;
 }
 
 #cboard {
+	display: inline-block;
 	float: right;
+	width: 60%;
+}
+
+#a {
+	position: absolute;
 }
 </style>
 </head>
@@ -64,7 +83,8 @@ td {
 	<button type="button" value="달력">달력</button>
 	<a href="#">로그아웃</a>
 	<br />
-	<div id="calendar">
+	<div id="a">
+
 		<table id="calendar" border="3">
 			<tr>
 				<!-- label은 마우스로 클릭을 편하게 해줌 -->
@@ -115,45 +135,74 @@ td {
 				out.print("</tr>");
 			%>
 		</table>
-	</div>
-	<div id="cboard">
-		<fieldset border="1">
-			<legend><%=year%>년
-				<%=month%>월
-				<%=date%>일
-			</legend>
-			<div class="container">
-				<div>
-					<table class="table table-board text-center">
-						<thead>
-							<tr>
-								<th style="width: 7%">글 번호</th>
-								<th style="width: 40%">제목</th>
-								<th style="width: 15%">작성자</th>
-								<th style="width: 10%">작성일</th>
-								<th style="width: 7%">조회수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${list}" var="dto">
+
+		<div id="cboard">
+			<fieldset border="1">
+				<legend><%=year%>년
+					<%=month%>월
+					<%=date%>일
+				</legend>
+
+				<div class="container">
+					<div>
+						<table class="table table-board text-center">
+							<thead>
 								<tr>
-									<td>${dto.num}</td>
-									<td><c:forEach begin="1" end="${dto.repIndent }">
-											<%="&nbsp;&nbsp;"%>
-										</c:forEach> <a href="retrieve.do?num=${dto.num}">${dto.title}</a></td>
-									<td>${dto.author}</td>
-									<td>${dto.writeday}</td>
-									<td>${dto.readcnt}</td>
+									<th style="width: 7%">글 번호</th>
+									<th style="width: 40%">제목</th>
+									<th style="width: 15%">작성자</th>
+									<th style="width: 10%">작성일</th>
+									<th style="width: 7%">조회수</th>
 								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<%
+									request.setCharacterEncoding("UTF-8");
+
+									Connection conn = DiaryDB.connect();
+
+									String sql = "select * from board where writeday = ?";
+									PreparedStatement pstmt = conn.prepareStatement(sql);
+
+									pstmt.setString(1, days);
+									
+									ResultSet rs = pstmt.executeQuery();
+
+
+									while (rs.next()) {
+										int num = rs.getInt("num");
+										String title = rs.getString("title");
+										String author = rs.getString("author");
+										String writeday = rs.getString("writeday");
+										int readcnt = rs.getInt("readcnt");
+
+										out.println("<tr>");
+										out.print("<td>" + num + "</td>");
+										out.print("<td>" + title + "</td>");
+										out.print("<td>" + author + "</td>");
+										out.print("<td>" + writeday + "</td>");
+										out.print("<td>" + readcnt + "</td>");
+										out.println("</tr>");
+									}
+									
+									DiaryDB.disconnect(rs);
+									DiaryDB.disconnect(pstmt);
+									DiaryDB.disconnect(conn);
+								%>
+							</tbody>
+						</table>
+					</div>
+					<div class="text-center">
+
+						<button class="btn btn-light" id="insert"
+							onclick="location.href='writeui.do'">글쓰기</button>
+						<!--<button class="btn btn-light" id="insert" onclick="location.href='list.do'">목록보기</button>-->
+
+					</div>
 				</div>
-		</fieldset>
+
+			</fieldset>
+		</div>
 	</div>
-	<div>
-		<p id="CurrentDate"></p>
-	</div>
-	<button>글쓰기</button>
 </body>
 </html>

@@ -1,6 +1,6 @@
-package ExchangeDiary.dbconnect;
+package com.entity;
 
-public class dto {
+public class UserDTO {
 
 	String id;
 	String pwd;
@@ -8,8 +8,8 @@ public class dto {
 	String birth;
 	String tel;
 
-	public dto() {}
-	public dto(String id, String pwd, String name, String birth, String tel) {
+	public UserDTO() {}
+	public UserDTO(String id, String pwd, String name, String birth, String tel) {
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;

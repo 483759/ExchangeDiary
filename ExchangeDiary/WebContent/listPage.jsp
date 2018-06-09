@@ -25,22 +25,9 @@
 
 
 <body>
-	<%
-		String id = (String) session.getAttribute("id");
-		String name = (String) session.getAttribute("name");
-		String logout = request.getParameter("logout");
-
-		if (logout != null && logout.equals("yes")) {
-			session.removeAttribute("id");
-			session.removeAttribute("login");
-		}
-	%>
 	<br>
 	<br>
 	<h1 class="text-center">게시판 목록 보기</h1>
-	<p>
-		안녕하세요!<%=name%>님!
-	</p>
 	<br>
 	<br>
 
@@ -59,9 +46,12 @@
 				<input type="text" class="form-control" id="Searchbar"
 					placeholder="Enter" name="Serachbar" width="50%">
 				<button class="btn btn-light " id="search" onclick="">검색</button>
+
 			</form>
 		</div>
 	</div>
+
+
 
 
 	<div class="container">
@@ -80,7 +70,7 @@
 					<c:forEach items="${list}" var="dto">
 						<tr>
 							<td>${dto.num}</td>
-							<td><c:forEach begin="1" end="${dto.repIndent }">
+							<td><c:forEach begin="1" end="${dto.repIndent}">
 									<%="&nbsp;&nbsp;"%>
 								</c:forEach> <a href="retrieve.do?num=${dto.num}">${dto.title}</a></td>
 							<td>${dto.author}</td>
@@ -95,13 +85,15 @@
 
 			<button class="btn btn-light" id="insert"
 				onclick="location.href='writeui.do'">글쓰기</button>
-			<button class="btn btn-light" id="logout"
-				onclick="location.href='main.jsp?logout=yes'">로그아웃</button>
-			<!-- <button class="btn btn-light" id="insert" onclick="location.href='list.do'">목록보기</button>-->
-
+			<!--<button class="btn btn-light" id="insert" onclick="location.href='list.do'">목록보기</button>-->
 		</div>
 	</div>
 
+
+	<!-- page -->
+	<tr>
+		<td colspan="10"><jsp:include page="page.jsp" flush="true" /></td>
+	</tr>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>

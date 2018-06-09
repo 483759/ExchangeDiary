@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR" import="com.loginCheck"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -57,7 +57,7 @@ a:visited {
 <body>
 
 	<div id="login_form">
-		<form action="?" method="post" onsubmit="return loginCheck(this)">
+		<form action="Login.jsp" method="post">
 			<table>
 				<tr>
 					<td>ID :</td>
@@ -79,31 +79,17 @@ a:visited {
 
 
 	<%
-	request.setCharacterEncoding("UTF-8");
-	String id = request.getParameter("id");
-	String pwd = request.getParameter("pwd");
-	
-	if(loginCheck.pass(id, pwd)){
-		session.setAttribute("id", id);
-		session.setAttribute("login", "yes");
-	}
-		
-	String logout = request.getParameter("logout");
-	
-	if(logout!=null&&logout.equals("yes")){
-		session.removeAttribute("id");
-		session.removeAttribute("login");
-	}
-	
-	String login = (String)session.getAttribute("login");
-	if(login!=null&&login.equals("yes")){
-		out.println("<script>");
-		out.println("alert('로그인 성공!')");
-		out.println("location.href='list.jsp'");
-		out.println("</script>");
-	}
-	
-%>
+		request.setCharacterEncoding("UTF-8");
+		String id = request.getParameter("id");
+		String pwd = request.getParameter("pwd");
+
+		String logout = request.getParameter("logout");
+
+		if (logout != null && logout.equals("yes")) {
+			session.removeAttribute("id");
+			session.removeAttribute("login");
+		}
+	%>
 </body>
 
 </html>

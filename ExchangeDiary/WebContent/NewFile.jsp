@@ -24,9 +24,6 @@
     year = cal.get(Calendar.YEAR);
     month = cal.get(Calendar.MONTH)+1;
     
-    int setDate(int i){
-    	
-    }
 
     // 1일은 무슨 요일?
     int w = cal.get(Calendar.DAY_OF_WEEK);

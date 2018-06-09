@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR" import="java.sql.*,com.DiaryDB"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" import="java.sql.*,com.DiaryDB"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%
@@ -16,18 +16,23 @@
 	pstmt.setString(1, id);
 	ResultSet rs = pstmt.executeQuery();
 	String password;
+	String name;
 	rs.next();
+	name = rs.getString("username");
 	password = rs.getString("pwd");
 
 	DiaryDB.disconnect(rs);
 	DiaryDB.disconnect(pstmt);
 	DiaryDB.disconnect(conn);
 
-	if (password.equals(pwd)) { //·Î±×ÀÎ¿¡ ¼º°øÇßÀ» ¶§
-		//out.println("<script>alert('·Î±×ÀÎ ¼º°ø')</script>");
-		response.sendRedirect("Calendar.jsp");
-	} else { //ºñ¹Ğ¹øÈ£°¡ Æ²·ÈÀ» ¶§
+	if (password.equals(pwd)) { //ë¡œê·¸ì¸ì— ì„±ê³µí–ˆì„ ë•Œ
+		//out.println("<script>alert('ë¡œê·¸ì¸ ì„±ê³µ')</script>");
+		response.sendRedirect("list.jsp");
+		session.setAttribute("id", id);
+		session.setAttribute("name", name);
+		session.setAttribute("login", "yes");
+	} else { //ë¹„ë°€ë²ˆí˜¸ê°€ í‹€ë ¸ì„ ë•Œ
 		response.sendRedirect("newmember.jsp");
-		//out.println("<script>alert('·Î±×ÀÎ ½ÇÆĞ')locaction.href='main.html'</script>");		
+		//out.println("<script>alert('ë¡œê·¸ì¸ ì‹¤íŒ¨')locaction.href='main.html'</script>");		
 	}
 %>

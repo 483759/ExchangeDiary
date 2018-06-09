@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR" import="java.sql.*,com.DiaryDB"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" import="java.sql.*,com.DiaryDB"%>
 
 <%
 	request.setCharacterEncoding("UTF-8");

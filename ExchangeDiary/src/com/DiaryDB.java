@@ -12,7 +12,7 @@ public class DiaryDB {
 	public static Connection connect() {
 		Connection conn = null;
 		String jdbc_driver = "com.mysql.jdbc.Driver";
-		String jdbc_url = "jdbc:mysql://localhost/diary"; 
+		String jdbc_url = "jdbc:mysql://localhost/diary?useUnicode=true&characterEncoding=utf8"; 
 
 		try {
 			Class.forName(jdbc_driver);
