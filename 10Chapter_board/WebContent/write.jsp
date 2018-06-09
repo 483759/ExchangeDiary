@@ -10,6 +10,11 @@
 </head>
 
 <body>
+
+ <%
+      String name = (String) session.getAttribute("name");
+ %>
+   
 <div class="container">
 <br>
 <br>
@@ -22,7 +27,7 @@
     </div>
     <div class="form-group">
       <label for="Author">작성자:</label>
-      <input type="text" class="form-control" id="author" placeholder="Enter Author" name="author">
+      <input type="text" class="form-control" id="author"  value="<%=name%>" name="author">
     </div>
     <div class="form-group">
     <label for="date">날짜:</label>

@@ -17,7 +17,7 @@ import com.entity.PageTO;
 public class BoardDAO {
 
 	String jdbc_driver = "com.mysql.jdbc.Driver";
-	String jdbc_url = "jdbc:mysql://localhost/jspdb"; 
+	String jdbc_url = "jdbc:mysql://localhost/diary"; 
 
 	public BoardDAO(){
 		//DataSource 얻기

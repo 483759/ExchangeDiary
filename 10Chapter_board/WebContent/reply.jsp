@@ -12,6 +12,10 @@
 <title>답변글 쓰기</title>
 </head>
 <body>
+ <%
+      String name = (String) session.getAttribute("name");
+ %>
+   
 	<div class="container">
 		<br> <br>
 		<center>
@@ -29,7 +33,7 @@
 			</div>
 			<div class="form-group">
 				<label for="Author">작성자:</label> <input type="text"
-					class="form-control" name="author" placeholder="Enter Author">
+					class="form-control" name="author"  value="<%=name%>">
 			</div>
 			<div class="form-group">
 				<label for="date">날짜:</label> <input type="date"

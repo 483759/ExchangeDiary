@@ -27,7 +27,7 @@
 
 	if (password.equals(pwd)) { //로그인에 성공했을 때
 		//out.println("<script>alert('로그인 성공')</script>");
-		response.sendRedirect("list.jsp");
+		response.sendRedirect("select.jsp");
 		session.setAttribute("id", id);
 		session.setAttribute("name", name);
 		session.setAttribute("login", "yes");
