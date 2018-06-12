@@ -10,6 +10,7 @@
 	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>답글 쓰기</title>
+
 </head>
 <body>
 	<%

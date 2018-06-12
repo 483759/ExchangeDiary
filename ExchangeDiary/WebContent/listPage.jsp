@@ -20,6 +20,8 @@
 	margin-bottom: 10px;
 	margin-right: 2px;
 }
+
+
 </style>
 </head>
 
@@ -35,8 +37,12 @@
 			session.removeAttribute("login");
 		}
 	%>
-	<button value="게시판" onclick="location.href='list.do'">게시판</button>
-	<button value="달력" onclick="location.href='Calendar.jsp'">달력</button>
+	<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button value="게시판" class ="btn btn-dark" onclick="location.href='list.do'">게시판</button>
+	<button value="달력"  class ="btn btn-dark" onclick="location.href='Calendar.jsp'">달력</button>
+	<input type="button"  class ="btn btn-dark" value="로그아웃"
+		onclick="location.href='main.jsp?logout=yes'">
+	<br><br>
 	<br>
 	<br>
 	<h1 class="text-center">일기 목록 보기</h1>
@@ -44,12 +50,11 @@
 	<div class="container">
 		<div class="row" id="namebar">
 			<form class="form-inline">
-				<p>
+				<p class="form-gruop">
 					안녕하세요
 					<%=name%>님~
 				</p>
-				<input type="button" value="로그아웃"
-					onclick="location.href='main.jsp?logout=yes'">
+				
 			</form>
 		</div>
 	</div>

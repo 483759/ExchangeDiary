@@ -49,16 +49,18 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
+	
 <title>달력</title>
 <style type="text/css">
+
+
 td {
-	width: 50px;
+	width: 100px;
 	height: 50px;
 	text-align: center;
 	font-size: 20px;
 	border: 2px;
 	border-color: #3333FF;
-	border-radius: 8px;
 	/*모서리 둥글게*/
 }
 
@@ -70,21 +72,28 @@ td {
 #cboard {
 	display: inline-block;
 	float: right;
-	width: 60%;
+	width: 65%;
+	margin-left:50px;
 }
+
 
 #a {
 	position: absolute;
+	margin-left:200px;
 }
 </style>
 </head>
 
 <body>
-	<button value="게시판" onclick="location.href='list.do'">게시판</button>
-	<button value="달력" onclick="location.href='Calendar.jsp'">달력</button>
-	<input type="button" value="로그아웃"
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button value="게시판" class ="btn btn-dark" onclick="location.href='list.do'">게시판</button>
+	<button value="달력"  class ="btn btn-dark" onclick="location.href='Calendar.jsp'">달력</button>
+	<input type="button"  class ="btn btn-dark" value="로그아웃"
 		onclick="location.href='main.jsp?logout=yes'">
-	<br />
+		<br><br>
+	<br>
+	<br>
+	<h1 class="text-center">달력 목록 보기</h1><br><br><br>
 	<div id="a">
 
 		<table id="calendar" border="3">
@@ -138,6 +147,7 @@ td {
 			%>
 		</table>
 
+
 		<div id="cboard">
 			<fieldset border="1">
 				<legend><%=year%>년
@@ -150,11 +160,11 @@ td {
 						<table class="table table-board text-center">
 							<thead>
 								<tr>
-									<th style="width: 7%">글 번호</th>
+									<th style="width: 4%">No.</th>
 									<th style="width: 40%">제목</th>
 									<th style="width: 15%">작성자</th>
 									<th style="width: 10%">작성일</th>
-									<th style="width: 7%">조회수</th>
+									<th style="width: 10%">조회수</th>
 								</tr>
 							</thead>
 							<tbody>

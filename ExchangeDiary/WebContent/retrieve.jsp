@@ -11,6 +11,7 @@
 	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>일기 보기</title>
+
 </head>
 <body>
 	<%

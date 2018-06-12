@@ -10,6 +10,7 @@
 	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>일기 쓰기</title>
+
 </head>
 
 <body>
