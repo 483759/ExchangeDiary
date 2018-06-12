@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="java.sql.*, java.util.Calendar, com.DiaryDB"%>
+	pageEncoding="UTF-8"
+	import="java.sql.*, java.util.Calendar, com.DiaryDB"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -79,9 +80,10 @@ td {
 </head>
 
 <body>
-	<button type="button" value="게시판">게시판</button>
-	<button type="button" value="달력">달력</button>
-	<a href="#">로그아웃</a>
+	<button value="게시판" onclick="location.href='list.do'">게시판</button>
+	<button value="달력" onclick="location.href='Calendar.jsp'">달력</button>
+	<input type="button" value="로그아웃"
+		onclick="location.href='main.jsp?logout=yes'">
 	<br />
 	<div id="a">
 
@@ -176,9 +178,10 @@ td {
 										String writeday = rs.getString("writeday");
 										int readcnt = rs.getInt("readcnt");
 
+										
 										out.println("<tr>");
 										out.print("<td>" + num + "</td>");
-										out.print("<td>" + title + "</td>");
+										out.print("<td><a href='retrieve.do?num=" + num + "'>" + title +"</a></td>");
 										out.print("<td>" + author + "</td>");
 										out.print("<td>" + writeday + "</td>");
 										out.print("<td>" + readcnt + "</td>");

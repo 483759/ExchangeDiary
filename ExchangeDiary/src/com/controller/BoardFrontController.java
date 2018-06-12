@@ -30,7 +30,7 @@ public class BoardFrontController extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("EUC-KR");
+		request.setCharacterEncoding("UTF-8");
 		
 		String requestURI = request.getRequestURI();
 		String contextPath = request.getContextPath();

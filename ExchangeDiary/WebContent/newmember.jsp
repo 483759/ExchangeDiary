@@ -13,17 +13,16 @@
 		<form method="post" action="Join.jsp">
 			<input type=hidden name="action" value="insert">
 			<fieldset>
-				<legend>Sign UP</legend>
-				<label for="id">ID : </label> <input type="text" name="id" />
-				<button>CHECK</button>
-				<br /> <br /> <label for="pwd">PASSWORD : </label> <input
+				<legend>회원 가입</legend>
+				<label for="id">아이디 : </label> <input type="text" name="id" />
+				<br /> <br /> <label for="pwd">비밀번호 : </label> <input
 					type="password" name="pwd" /><br /> <br /> <label
-					for="password2">PASSWORD CHECK : </label> <input type="password"
-					name="password2" /><br /> <br /> <label for="name">NAME
+					for="password2">비밀번호 확인 : </label> <input type="password"
+					name="password2" /><br /> <br /> <label for="name">이름
 					: </label> <input type="text" name="name" /><br /> <br /> <label
-					for="tel">PHONE NUM : </label> <input type="tel" name="tel"
+					for="tel">핸드폰 번호 : </label> <input type="tel" name="tel"
 					pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{3,4}" /><br /> <br /> <label
-					for="dob">BIRTH : </label> <input type="date" name="birth" /><br />
+					for="dob">생일 : </label> <input type="date" name="birth" /><br />
 				<br />
 			</fieldset>
 			<br /> <input type="submit" name="submit" value="JOIN" /> <input

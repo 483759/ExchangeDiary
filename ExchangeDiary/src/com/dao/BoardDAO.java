@@ -79,19 +79,20 @@ public class BoardDAO {
 	}//end select
 
 	//글쓰기 
-	public void write( String _title, String _author, String _content){
+	public void write( String _title, String _author, String _writeday, String _content){
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		try{
 			con = DriverManager.getConnection(jdbc_url, "root", "426795");
-			String query =" INSERT INTO board (title, author , content,  repRoot , repStep , repIndent ) values (? , ? , ? , 0 , 0 , 0 )";
+			String query =" INSERT INTO board (title, author , content, writeday, repRoot , repStep , repIndent ) values (? , ? , ?, ? , 0 , 0 , 0 )";
 			pstmt = con.prepareStatement( query );
 
 			pstmt.setString( 1, _title );
 			pstmt.setString( 2, _author );
 			pstmt.setString( 3, _content );
+			pstmt.setString(4, _writeday);
 
 			int n = pstmt.executeUpdate();
 
@@ -183,7 +184,7 @@ public class BoardDAO {
 	}//end retrieve
 
 	//글 수정하기
-	public void update( String  _num , String  _title , String  _author , String  _content ){
+	public void update( String  _num , String  _title , String  _author , String  _content , String _writeday){
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -191,14 +192,15 @@ public class BoardDAO {
 
 		try{
 			con = DriverManager.getConnection(jdbc_url, "root", "426795");
-			String query = "UPDATE board SET  title = ?  ,  author = ? , content = ?  WHERE num = ?";
+			String query = "UPDATE board SET title = ?  ,  author = ? , content = ? , writeday = ?  WHERE num = ?";
 
 			pstmt = con.prepareStatement( query );
 
 			pstmt.setString ( 1 , _title );
 			pstmt.setString( 2,  _author );
 			pstmt.setString( 3 ,  _content );
-			pstmt.setInt(  4 ,   Integer.parseInt( _num ) );
+			pstmt.setString( 4 , _writeday);
+			pstmt.setInt( 5 , Integer.parseInt( _num ) );
 
 			int n = pstmt.executeUpdate();
 
@@ -229,7 +231,7 @@ public class BoardDAO {
 			pstmt = con.prepareStatement( query );
 			pstmt.setInt(  1 ,   Integer.parseInt( _num ) );
 
-			int n =	pstmt.executeUpdate( );
+			int n =   pstmt.executeUpdate( );
 
 
 
@@ -249,7 +251,7 @@ public class BoardDAO {
 	}//end delete
 
 	// 검색 하기
-	public ArrayList<BoardDTO>  search( String  _searchName,  String  _searchValue )	{
+	public ArrayList<BoardDTO>  search( String  _searchName,  String  _searchValue )   {
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -257,7 +259,7 @@ public class BoardDAO {
 
 		try{
 			con = DriverManager.getConnection(jdbc_url, "root", "426795");
-			String query = "SELECT  num , author, title,  content ,  substr( writeday , 1, 10) writeday ,  readcnt FROM board";
+			String query = "SELECT  num , author, title,  content , writeday ,  readcnt FROM board";
 
 			if(  _searchName.equals( "title" )){
 
@@ -370,7 +372,7 @@ public class BoardDAO {
 		}finally{
 			try {
 				if( pstmt!= null) pstmt.close();
-				if( con!= null) con.close();		
+				if( con!= null) con.close();      
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -380,7 +382,7 @@ public class BoardDAO {
 	}//
 
 	//답변 달기
-	public void reply( String _num, String _title , String  _author, String _content , String _repRoot,  String _repStep , String _repIndent ){
+	public void reply( String _num, String _title , String  _author, String _content , String _writeday, String _repRoot,  String _repStep , String _repIndent ){
 
 		makeReply( _repRoot,  _repStep );
 
@@ -388,15 +390,16 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		try{
 			con = DriverManager.getConnection(jdbc_url, "root", "426795");
-			String query = "INSERT INTO board (title, author, content, repRoot, repStep, repIndent ) values (? , ? , ? , ?, ?, ?) ";
+			String query = "INSERT INTO board (title, author, content, writeday, repRoot, repStep, repIndent ) values (? , ? , ? ,? , ?, ?, ?) ";
 			pstmt = con.prepareStatement( query );
 
 			pstmt.setString ( 1,  _title );
 			pstmt.setString ( 2, _author );
 			pstmt.setString ( 3, _content );
-			pstmt.setInt ( 4, Integer.parseInt( _repRoot) );
-			pstmt.setInt ( 5,  Integer.parseInt( _repStep) + 1 );
-			pstmt.setInt ( 6,  Integer.parseInt( _repIndent) + 1 );
+			pstmt.setString(4, _writeday);
+			pstmt.setInt ( 5, Integer.parseInt( _repRoot) );
+			pstmt.setInt ( 6,  Integer.parseInt( _repStep) + 1 );
+			pstmt.setInt ( 7,  Integer.parseInt( _repIndent) + 1 );
 
 			int n = pstmt.executeUpdate();
 
@@ -405,7 +408,7 @@ public class BoardDAO {
 		}finally{
 			try {
 				if( pstmt!= null) pstmt.close();
-				if( con!= null) con.close();		
+				if( con!= null) con.close();      
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -424,7 +427,7 @@ public class BoardDAO {
 			con = DriverManager.getConnection(jdbc_url, "root", "426795");
 			String query = "SELECT  count(*) FROM board";
 			pstmt = con.prepareStatement( query );
-			rs =	pstmt.executeQuery( );
+			rs =   pstmt.executeQuery( );
 
 			if( rs.next()){
 				count = rs.getInt( 1 );
@@ -459,7 +462,7 @@ public class BoardDAO {
 
 		try{
 			con = DriverManager.getConnection(jdbc_url, "root", "426795");
-			String query = "SELECT  num , author, title,  content ,  substr( writeday , 1, 10) writeday ,  readcnt , repRoot, repStep, repIndent FROM board order by repRoot desc , repStep asc";
+			String query = "SELECT  num , author, title,  content , writeday ,  readcnt , repRoot, repStep, repIndent FROM board order by repRoot desc , repStep asc";
 
 			pstmt = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
 			rs = pstmt.executeQuery(  );

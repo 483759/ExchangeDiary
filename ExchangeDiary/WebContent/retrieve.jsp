@@ -1,26 +1,70 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>±Û ÀÚ¼¼È÷ º¸±â</title>
-<link rel="stylesheet" href="board.css" type="text/css" media="screen" />
+<title>ì¼ê¸° ë³´ê¸°</title>
 </head>
 <body>
-	<h1>±Û ÀÚ¼¼È÷ º¸±â</h1>
-	<form action="update.do" method="post">
-		<input type="hidden" name="num" value="${retrieve.num}"> ±Û¹øÈ£:
-		${retrieve.num} &nbsp;&nbsp;&nbsp;&nbsp; Á¶È¸¼ö: ${retrieve.readcnt}<br>
-		Á¦¸ñ<input type="text" name="title" value="${retrieve.title}"><br>
-		ÀÛ¼ºÀÚ<input type="text" name="author" value="${retrieve.author}"><br>
-		³»¿ë
-		<textarea name="content" rows="10">${retrieve.content}</textarea>
-		<br> <input type="submit" value="¼öÁ¤">
-	</form>
-	<a href="list.do">¸ñ·Ï</a>
-	<a href="delete.do?num=${retrieve.num}">»èÁ¦</a>
-	<a href="replyui.do?num=${retrieve.num}">´äº¯´Ş±â</a>
+	<%
+		request.setCharacterEncoding("UTF-8");
+		String name = (String) session.getAttribute("name");
+		String logout = request.getParameter("logout");
+	%>
+	<div class="container">
+		<br> <br>
+		<center>
+			<h2>ì¼ê¸° ë³´ê¸°</h2>
+		</center>
+		<form action="update.do" method="post">
+			<input type="hidden" name="num" value="${retrieve.num}">
+			<div class="form-group">
+				<label for="Title">ì¼ê¸° ì œëª© : </label> <input type="text"
+					class="form-control" name="title" value="${retrieve.title}">
+			</div>
+			<div class="form-group">
+				<label for="Author">ì“´ ì‚¬ëŒ : </label> <input type="text"
+					class="form-control" name="author" value="${retrieve.author}">
+			</div>
+			<div class="form-group">
+				<label for="date">ì“´ ë‚ ì§œ : </label> <input type="date"
+					class="form-control" name="writeday" value="${retrieve.writeday}">
+			</div>
+
+			<br>
+			<div class="form-group">
+				<label for="content">ë‚´ìš© : </label>
+				<textarea name="content" class="form-control" rows="10">${retrieve.content}</textarea>
+				<center>
+					<br>
+					<c:set var="name" value="<%=name%>"></c:set>
+					<c:if test="${retrieve.author==name}">
+						<input type="submit" class="btn btn-info" value="ìˆ˜ì •">
+						<button class="btn btn-info"
+							onclick="location.href='delete.do?num=${retrieve.num}'">ì‚­ì œí•˜ê¸°</button>
+					</c:if>
+
+				</center>
+			</div>
+
+			<br>
+			<center>
+				<button type="button" class="btn btn-light" id="list"
+					onclick="location.href='replyui.do?num=${retrieve.num}'">ë‹µê¸€
+					ì“°ê¸°</button>
+				<button type="button" class="btn btn-info"
+					onclick="location.href='list.do'">ëª©ë¡ ë³´ê¸°</button>
+			</center>
+
+		</form>
+	</div>
 </body>
+
 </html>

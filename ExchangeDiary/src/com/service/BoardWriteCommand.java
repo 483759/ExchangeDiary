@@ -13,11 +13,11 @@ public class BoardWriteCommand implements BoardCommand {
 	
 				String title = request.getParameter( "title" );
 				String author = request.getParameter( "author" );
+				String writeday = request.getParameter("writeday");
 				String content = request.getParameter( "content" );
 
-
 				BoardDAO dao = new BoardDAO();
-				dao.write( title, author , content );
+				dao.write( title, author , writeday, content );
 		
 
 	}

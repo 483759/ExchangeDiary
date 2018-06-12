@@ -1,4 +1,11 @@
 eclipse.preferences.version=1
 encoding//WebContent/Calendar.jsp=UTF-8
+encoding//WebContent/list.jsp=UTF-8
+encoding//WebContent/listPage.jsp=UTF-8
 encoding//WebContent/newmember.jsp=UTF-8
+encoding//WebContent/page.jsp=UTF-8
+encoding//WebContent/reply.jsp=UTF-8
+encoding//WebContent/retrieve.jsp=UTF-8
+encoding//WebContent/select.jsp=UTF-8
+encoding//WebContent/write.jsp=UTF-8
 encoding//src/com/dao/BoardDAO.java=UTF-8

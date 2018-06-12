@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -11,10 +11,10 @@
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>¸ñ·Ïº¸±â</title>
+<title>ì¼ê¸° ëª©ë¡ ë³´ê¸°</title>
 
 <style>
-#searchbar {
+#namebar {
 	display: inline-block;
 	float: right;
 	margin-bottom: 10px;
@@ -26,6 +26,7 @@
 
 <body>
 	<%
+		request.setCharacterEncoding("UTF-8");
 		String id = (String) session.getAttribute("id");
 		String name = (String) session.getAttribute("name");
 		String logout = request.getParameter("logout");
@@ -37,43 +38,31 @@
 	%>
 	<br>
 	<br>
-	<h1 class="text-center">°Ô½ÃÆÇ ¸ñ·Ï º¸±â</h1>
-	<p>
-		¾È³çÇÏ¼¼¿ä!<%=name%>´Ô!
-	</p>
-	<br>
-	<br>
-
+	<h1 class="text-center">ì¼ê¸° ëª©ë¡ ë³´ê¸°</h1>
 	<div class="container">
-		<div class="row" id="searchbar">
-			<form class="form-inline" action="search.do">
-				<div class="dropdown">
-					<button class="btn btn-light dropdown-toggle" type="button"
-						id="Search" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false">ÀÛ¼ºÀÚ</button>
-					<div class="dropdown-menu" aria-labelledby="Search">
-						<a class="dropdown-item" href="#">ÀÛ¼ºÀÚ</a> <a class="dropdown-item"
-							href="#">Á¦¸ñ</a>
-					</div>
-				</div>
-				<input type="text" class="form-control" id="Searchbar"
-					placeholder="Enter" name="Serachbar" width="50%">
-				<button class="btn btn-light " id="search" onclick="">°Ë»ö</button>
+		<div class="row" id="namebar">
+			<form class="form-inline">
+				<p>
+					ì•ˆë…•í•˜ì„¸ìš”!
+					<%=name%>ë‹˜!
+				</p>
+				<button value='ë¡œê·¸ì•„ì›ƒ' onclick="location.href='main.jsp'"></button>
 			</form>
 		</div>
 	</div>
-
+	<br>
+	<br>
 
 	<div class="container">
 		<div>
 			<table class="table table-board text-center">
 				<thead>
 					<tr>
-						<th style="width: 7%">±Û ¹øÈ£</th>
-						<th style="width: 40%">Á¦¸ñ</th>
-						<th style="width: 15%">ÀÛ¼ºÀÚ</th>
-						<th style="width: 10%">ÀÛ¼ºÀÏ</th>
-						<th style="width: 7%">Á¶È¸¼ö</th>
+						<th style="width: 7%">ê¸€ ë²ˆí˜¸</th>
+						<th style="width: 40%">ì¼ê¸° ì œëª©</th>
+						<th style="width: 15%">ì“´ ì‚¬ëžŒ</th>
+						<th style="width: 10%">ì“´ ë‚ ì§œ</th>
+						<th style="width: 7%">ì½ì€ íšŸìˆ˜</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -94,13 +83,13 @@
 		<div class="text-center">
 
 			<button class="btn btn-light" id="insert"
-				onclick="location.href='writeui.do'">±Û¾²±â</button>
-			<button class="btn btn-light" id="logout"
-				onclick="location.href='main.jsp?logout=yes'">·Î±×¾Æ¿ô</button>
-			<!-- <button class="btn btn-light" id="insert" onclick="location.href='list.do'">¸ñ·Ïº¸±â</button>-->
+				onclick="location.href='writeui.do'">ï¿½Û¾ï¿½ï¿½ï¿½</button>
+			<!-- <button class="btn btn-light" id="insert" onclick="location.href='list.do'">ï¿½ï¿½Ïºï¿½ï¿½ï¿½</button>-->
 
 		</div>
 	</div>
+
+
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

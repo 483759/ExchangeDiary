@@ -26,13 +26,11 @@
 	DiaryDB.disconnect(conn);
 
 	if (password.equals(pwd)) { //로그인에 성공했을 때
-		//out.println("<script>alert('로그인 성공')</script>");
-		response.sendRedirect("list.jsp");
+		response.sendRedirect("select.jsp");
 		session.setAttribute("id", id);
 		session.setAttribute("name", name);
 		session.setAttribute("login", "yes");
 	} else { //비밀번호가 틀렸을 때
 		response.sendRedirect("newmember.jsp");
-		//out.println("<script>alert('로그인 실패')locaction.href='main.html'</script>");		
 	}
 %>

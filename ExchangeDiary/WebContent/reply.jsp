@@ -1,28 +1,67 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>´äº¯±Û ¾²±â È­¸é</title>
-<link rel="stylesheet" href="board.css" type="text/css" media="screen" />
+<title>ë‹µê¸€ ì“°ê¸°</title>
 </head>
 <body>
-<h1>´äº¯±Û ¾²±â È­¸é</h1>
- <form action="reply.do" method="post">
-  <input type="hidden" name="num" value="${replyui.num}">
-<input type="hidden" name="repRoot" value="${replyui.repRoot}">
-<input type="hidden" name="repStep" value="${replyui.repStep}">
-<input type="hidden" name="repIndent" value="${replyui.repIndent}">
+	<%
+		request.setCharacterEncoding("UTF-8");
+		String name = (String) session.getAttribute("name");
+	%>
 
-  	¿ø·¡±Û¹øÈ£${replyui.num}&nbsp; Á¶È¸¼ö${replyui.readcnt}<br />
-	Á¦¸ñ<input type="text" name="title" value="${replyui.title}"><br />
-	ÀÛ¼ºÀÚ<input type="text" name="author" ><br />
-	³»¿ë<textarea name="content" rows="10" >${replyui.content}></textarea><br />
-	<input type="submit" value="´äº¯´Þ±â">
-  </form>
- <a href="list.do">¸ñ·Ïº¸±â</a>
+	<div class="container">
+		<br> <br>
+		<center>
+			<h2>ë‹µê¸€ ë‹¬ê¸°</h2>
+		</center>
 
+		<form action="reply.do" method="post">
+			<input type="hidden" name="num" value="${replyui.num}"> <input
+				type="hidden" name="repRoot" value="${replyui.repRoot}"> <input
+				type="hidden" name="repStep" value="${replyui.repStep}"> <input
+				type="hidden" name="repIndent" value="${replyui.repIndent}">
+			<div class="form-group">
+				<label for="Title">ì œëª© : </label> <input type="text"
+					class="form-control" name="title" value="${replyui.title}>">
+			</div>
+			<div class="form-group">
+				<label for="Author">ì“´ ì‚¬ëžŒ : </label> <input type="text"
+					class="form-control" name="author" value="<%=name%>">
+			</div>
+			<div class="form-group">
+				<label for="date">ì“´ ë‚ ì§œ : </label> <input type="date"
+					class="form-control" name="writeday" value="${retrieve.writeday}">
+			</div>
+
+			<br>
+			<div class="form-group">
+				<label for="content">ë‚´ìš© : </label>
+				<textarea name="content" class="form-control" rows="10">${replyui.content}></textarea>
+
+				<br> <br>
+
+				<center>
+
+					<button type="button" class="btn btn-info"
+						onclick="location.href='list.do'">ëª©ë¡ ë³´ê¸°</button>
+					<button type="submit" class="btn btn-info">ì“°ê¸°</button>
+
+				</center>
+			</div>
+
+			<br>
+			<center></center>
+
+		</form>
+	</div>
 </body>
+
 </html>

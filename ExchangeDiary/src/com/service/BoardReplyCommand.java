@@ -14,12 +14,13 @@ public class BoardReplyCommand implements BoardCommand {
 		String title = request.getParameter( "title" );
 		String author = request. getParameter( "author" );
 		String content = request.getParameter( "content" );
+		String writeday = request.getParameter("writeday");
 		String repRoot = request.getParameter( "repRoot" );
 		String repStep = request.getParameter( "repStep" );
 		String repIndent = request.getParameter( "repIndent" );
 
 		BoardDAO  dao = new BoardDAO();
-		 dao.reply( num, title, author, content, repRoot, repStep , repIndent );
+		 dao.reply( num, title, author, content,writeday,repRoot, repStep , repIndent );
 
 	}
 

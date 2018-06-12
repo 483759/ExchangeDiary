@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -11,10 +11,10 @@
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>��Ϻ���</title>
+<title>일기 목록 보기</title>
 
 <style>
-#searchbar {
+#namebar {
 	display: inline-block;
 	float: right;
 	margin-bottom: 10px;
@@ -23,35 +23,38 @@
 </style>
 </head>
 
-
 <body>
+	<%
+		request.setCharacterEncoding("UTF-8");
+		String id = (String) session.getAttribute("id");
+		String name = (String) session.getAttribute("name");
+		String logout = request.getParameter("logout");
+
+		if (logout != null && logout.equals("yes")) {
+			session.removeAttribute("id");
+			session.removeAttribute("login");
+		}
+	%>
+	<button value="게시판" onclick="location.href='list.do'">게시판</button>
+	<button value="달력" onclick="location.href='Calendar.jsp'">달력</button>
 	<br>
 	<br>
-	<h1 class="text-center">�Խ��� ��� ����</h1>
-	<br>
-	<br>
+	<h1 class="text-center">일기 목록 보기</h1>
 
 	<div class="container">
-		<div class="row" id="searchbar">
-			<form class="form-inline" action="search.do">
-				<div class="dropdown">
-					<button class="btn btn-light dropdown-toggle" type="button"
-						id="Search" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false">�ۼ���</button>
-					<div class="dropdown-menu" aria-labelledby="Search">
-						<a class="dropdown-item" href="#">�ۼ���</a> <a class="dropdown-item"
-							href="#">����</a>
-					</div>
-				</div>
-				<input type="text" class="form-control" id="Searchbar"
-					placeholder="Enter" name="Serachbar" width="50%">
-				<button class="btn btn-light " id="search" onclick="">�˻�</button>
-
+		<div class="row" id="namebar">
+			<form class="form-inline">
+				<p>
+					안녕하세요
+					<%=name%>님~
+				</p>
+				<input type="button" value="로그아웃"
+					onclick="location.href='main.jsp?logout=yes'">
 			</form>
 		</div>
 	</div>
-
-
+	<br>
+	<br>
 
 
 	<div class="container">
@@ -59,18 +62,18 @@
 			<table class="table table-board text-center">
 				<thead>
 					<tr>
-						<th style="width: 7%">�� ��ȣ</th>
-						<th style="width: 40%">����</th>
-						<th style="width: 15%">�ۼ���</th>
-						<th style="width: 10%">�ۼ���</th>
-						<th style="width: 7%">��ȸ��</th>
+						<th style="width: 7%">글 번호</th>
+						<th style="width: 40%">일기 제목</th>
+						<th style="width: 15%">쓴 사람</th>
+						<th style="width: 10%">쓴 날짜</th>
+						<th style="width: 7%">읽은 횟수</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${list}" var="dto">
 						<tr>
 							<td>${dto.num}</td>
-							<td><c:forEach begin="1" end="${dto.repIndent}">
+							<td><c:forEach begin="1" end="${dto.repIndent }">
 									<%="&nbsp;&nbsp;"%>
 								</c:forEach> <a href="retrieve.do?num=${dto.num}">${dto.title}</a></td>
 							<td>${dto.author}</td>
@@ -84,10 +87,13 @@
 		<div class="text-center">
 
 			<button class="btn btn-light" id="insert"
-				onclick="location.href='writeui.do'">�۾���</button>
-			<!--<button class="btn btn-light" id="insert" onclick="location.href='list.do'">��Ϻ���</button>-->
+				onclick="location.href='writeui.do'">일기 쓰기</button>
+			<!--<button class="btn btn-light" id="insert" onclick="location.href='list.do'">��Ϻ���</button>-->
+
 		</div>
 	</div>
+
+
 
 
 	<!-- page -->
